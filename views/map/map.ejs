@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+#stage{
+	width:100%;
+	height:650px;
+	background:red;
+}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+var stage;
+var lat=51.508742 , lng=-0.120850;
+
+var posArray=[];
+var map;
+
+
+function addMarker(){
+	stage=document.getElementById("stage");
+
+	var map = new google.maps.Map( stage , {
+		center: new google.maps.LatLng(37.53636523 , 126.23212265), 
+		zoom: 8
+	});
+
+	<%for(var i=0;i<rows.length;i++){%>
+	<%var obj=rows[i];%>
+		
+		var myCenter = new google.maps.LatLng(<%=obj.lat%> , <%=obj.lng%>);
+
+		var myIcon = {
+			url: "../images/<%=obj.icon%>", // url
+			scaledSize: new google.maps.Size(30, 30), // scaled size
+			origin: new google.maps.Point(0,0), // origin
+			anchor: new google.maps.Point(0, 0) // anchor
+		};
+
+		var marker = new google.maps.Marker({
+			position:myCenter,
+			animation:google.maps.Animation.BOUNCE,
+			icon:myIcon		
+		});
+
+		marker.setMap(map);
+		var win = new google.maps.InfoWindow({
+			content:"<%=obj.msg%>"
+		});
+		win.open(map,marker);
+
+	<%}%>
+}
+</script>
+</head>
+<body>
+<div id="stage"></div>
+</body>
+</html>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgSH9sd-U3odpmhLoTZwppwM-vSgwHYuU&callback=addMarker"></script>

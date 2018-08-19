@@ -1,0 +1,7 @@
+create table area(
+area_id int primary key auto_increment
+, lat double
+, lng double
+, msg varchar(30)
+, icon varchar(20)
+) default character set utf8;

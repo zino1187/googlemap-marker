@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+*{margin:0px;}
+.wrapper{
+	width:100%;
+	height:700px;
+}
+.control{
+	width:15%;
+	height:100%;
+	float:left;
+	padding:16px 0px;
+	text-align:center;
+}
+.control input, select,button{
+	width:90%;
+	font-size:20px;
+	margin:5px 0px;
+}
+button{
+	border:none;
+	background:dodgerblue;
+	color:#fff;
+	font-weight:bold;
+	padding:5px 0px;
+}
+#stage{
+	width:80%;
+	height:700px;
+	float:left;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+$(function(){
+	$("#bt").click(function(){
+		regist();		
+	});
+
+	$("#icon").on("change",function(){
+		$("#pin").attr("src", "../images/"+$(this).val());
+	});
+
+});
+
+function regist(){
+	$.post("/map/regist",{
+		lat:$("#lat").val(),
+		lng:$("#lng").val(),
+		msg:$("#msg").val(),
+		icon:$("#icon").val()
+	}, function(data, status){
+		alert(data.msg+","+status);	
+		window.frames["mapFrame"].location.reload();
+	});
+}
+</script>
+</head>
+<body>
+<div class="wrapper">
+	<div class="control">
+		<form>
+			<div>
+				 <input type="text" name="lat" id="lat" placeholder="위도 입력">
+			</div>
+			<div>
+				 <input type="text" name="lng" id="lng" placeholder="경도 입력">
+			 </div>
+			<div>
+				 <input type="text" name="msg" id="msg" placeholder="메세지 입력">
+			 </div>
+			<div>
+				 아이콘
+				 <select name="icon" id="icon">
+					<option value="pin1.png">핀1</option>
+					<option value="pin2.png">핀2</option>
+					<option value="pin3.png">핀3</option>
+					<option value="pin4.png">핀4</option>
+					<option value="pin5.png">핀5</option> 
+				 </select>
+			 </div>
+			<div>
+				<img src="../images/pin1.png" width="50px" id="pin">
+			</div>	
+		</form>
+		 <div>
+			 <button id="bt">등록</button>
+		 </div>
+	</div>
+	<div id="stage"><iframe name="mapFrame" src="/map/list" frameborder="0px" width="100%" height="100%"/></div>
+</div>
+</body>
+</html>
+
